@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Google Map</title>
+    <link rel="shortcut icon" href="https://i.pinimg.com/564x/9a/55/81/9a5581b10592547f5ffef6f22e2b7158.jpg">
+    <style>
+        #map {
+            height: 90vh;
+            width: 100%;
+        }
+        body {
+            text-align: center;
+        }
+
+    </style>
+
+
+
+</head>
+<body>
+    <h1>My Google Map</h1>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            
+            //Map options
+            var options = {
+                zoom:10,
+                center:{lat:47.8063, lng:25.8928}
+            }
+            // New map
+            var map = new google.maps.Map(document.querySelector('#map'), options);
+
+            // Listen for click on map
+            google.maps.event.addListener(map, 'click', 
+            function(event){
+                //add marker
+                addMarker({coords:event.latLng})
+            })
+        
+            /*
+           //Add marker
+           var marker = new google.maps.Marker({
+                position:{lat:47.8409, lng:25.9138},
+                map:map,
+                icon:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content:'<h1>Radauti Home</h1>'
+            });
+
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            }); 
+            */
+
+            var markers = [
+                {
+                    coords:{lat:47.8409, lng:25.9138},
+                    iconImage:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                    content:'<h1>Radauti Home</h1>' 
+                },
+                {
+                    coords:{lat:47.7857, lng:25.9996},
+                    content:'<h1>Milisauti</h1>'
+                 },
+                {
+                    coords:{lat:47.7041, lng:25.8354}
+                }
+            ];
+                   
+               
+                // loop through markers
+                for(var i = 0; i < markers.length; i++) {
+                    // Add marker
+                    addMarker(markers[i]);
+                } 
+
+                /*
+            addMarker({coords:{lat:47.8409, lng:25.9138},
+                       iconImage:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                       content:'<h1>Radauti Home</h1>' 
+        });
+            addMarker({coords:{lat:47.7857, lng:25.9996},
+            content:'<h1>Milisauti</h1>'
+        });
+            addMarker({coords:{lat:47.7041, lng:25.8354}}); */
+
+            // Add marker function
+            function addMarker(props) {
+                var marker = new google.maps.Marker({
+                position:props.coords,
+                map:map,
+                //icon:props.iconImage
+            });
+                //check for custom icon
+                if(props.iconImage) {
+                    // set icon image 
+                    marker.setIcon(props.iconImage);
+                }
+
+                // Check content
+                if (props.content) {
+                    var infoWindow = new google.maps.InfoWindow({
+                    content:props.content
+                });
+                marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+                }); 
+            
+            }
+        }
+    }
+
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4uOeNQLRz7Yv7jEp0d7udSS0IA8YDSxI&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+</body>
+</html>
